@@ -8,15 +8,11 @@ export async function POST() {
 	try {
 		const cookieStore = await cookies()
 
-		await api.post(
-			'auth/logout',
-			{},
-			{
-				headers: {
-					Cookie: cookieStore.toString(),
-				},
+		await api.post('auth/logout', null, {
+			headers: {
+				Cookie: cookieStore.toString(),
 			},
-		)
+		})
 
 		cookieStore.delete('accessToken')
 		cookieStore.delete('refreshToken')

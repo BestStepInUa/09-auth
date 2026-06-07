@@ -3,7 +3,7 @@
 import { ReactNode, useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
 
-import { checkSession, getMe, logout } from '@/lib/clientApi'
+import { checkSession, getMe } from '@/lib/clientApi'
 import {
 	useAuthStore,
 	selectSetUser,
@@ -54,12 +54,8 @@ export default function AuthProvider({ children }: Props) {
 	// Перевірка при переході на приватну сторінку
 	useEffect(() => {
 		if (!isLoading && isPrivateRoute && !isAuthenticated) {
-			const handleUnauthorized = async () => {
-				await logout()
-				clearIsAuthenticated()
-				window.location.href = '/sign-in'
-			}
-			handleUnauthorized()
+			clearIsAuthenticated()
+			window.location.href = '/sign-in'
 		}
 	}, [isPrivateRoute, isAuthenticated, isLoading, clearIsAuthenticated])
 
