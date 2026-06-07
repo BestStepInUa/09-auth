@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { api } from '@/app/api/api'
 import { cookies } from 'next/headers'
+
+import { api } from '@/app/api/api'
 import { ApiError, createErrorResponce, setAuthCookiesFromHeaders } from '@/app/api/_utils/utils'
 
 export async function POST(req: NextRequest) {

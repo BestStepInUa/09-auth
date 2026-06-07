@@ -13,7 +13,7 @@ import {
 	selectDraft,
 	selectSetDraft,
 	useNoteDraftStore,
-} from '@/app/store/noteStore'
+} from '@/lib/store/noteStore'
 
 const ValidationCreateNoteFormSchema = Yup.object().shape({
 	title: Yup.string()

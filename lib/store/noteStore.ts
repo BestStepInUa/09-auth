@@ -1,6 +1,5 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import { produce } from 'immer'
 
 import { CreateNoteDto } from '@/types/note'
 
@@ -21,20 +20,8 @@ export const useNoteDraftStore = create<NoteDraftStore>()(
 		(set) => {
 			return {
 				draft: initialDraft,
-				setDraft: (note) => {
-					set(
-						produce((state: NoteDraftStore) => {
-							state.draft = note
-						}),
-					)
-				},
-				clearDraft: () => {
-					set(
-						produce((state: NoteDraftStore) => {
-							state.draft = initialDraft
-						}),
-					)
-				},
+				setDraft: (note) => set({ draft: note }),
+				clearDraft: () => set({ draft: initialDraft }),
 			}
 		},
 		{
@@ -53,4 +40,3 @@ export const selectDraft = (state: NoteDraftStore) => state.draft
 export const selectSetDraft = (state: NoteDraftStore) => state.setDraft
 
 export const selectClearDraft = (state: NoteDraftStore) => state.clearDraft
-

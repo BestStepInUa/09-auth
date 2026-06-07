@@ -6,6 +6,7 @@ import Footer from '@/components/Footer'
 
 import 'modern-normalize'
 import './globals.css'
+import AuthProvider from '@/components/AuthProvider'
 
 const robotoFont = Roboto({
 	variable: '--font-roboto',
@@ -45,12 +46,14 @@ export default function RootLayout({
 		<html lang='en' className={robotoFont.variable}>
 			<body>
 				<TanStackProvider>
-					<Header />
-					<main>
-						{children}
-						{modal}
-					</main>
-					<Footer />
+					<AuthProvider>
+						<Header />
+						<main>
+							{children}
+							{modal}
+						</main>
+						<Footer />
+					</AuthProvider>
 				</TanStackProvider>
 			</body>
 		</html>

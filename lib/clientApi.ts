@@ -80,3 +80,19 @@ export const login = async (loginRequestDto: RegisterOrLoginRequest): Promise<Us
 
 	return data
 }
+
+type CheckSessionResponse = {
+	success: boolean
+}
+
+export const checkSession = async (): Promise<boolean> => {
+	const { data } = await nextServer.get<CheckSessionResponse>('/auth/session')
+
+	return data.success
+}
+
+export const getMe = async (): Promise<User> => {
+	const { data } = await nextServer.get<User>('/users/me')
+
+	return data
+}
