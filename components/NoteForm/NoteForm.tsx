@@ -5,15 +5,15 @@ import * as Yup from 'yup'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 
-import { createNote } from '@/lib/api'
+import { createNote } from '@/lib/clientApi'
 
 import css from './NoteForm.module.css'
 import {
-	useNoteDraftStore,
+	selectClearDraft,
 	selectDraft,
 	selectSetDraft,
-	selectClearDraft,
-} from '@/lib/store/noteStore'
+	useNoteDraftStore,
+} from '@/app/store/noteStore'
 
 const ValidationCreateNoteFormSchema = Yup.object().shape({
 	title: Yup.string()
