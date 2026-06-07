@@ -98,5 +98,5 @@ export const getMe = async (): Promise<User> => {
 }
 
 export const logout = async (): Promise<void> => {
-	await nextServer.post('/auth/logout')
+	await nextServer.post('/auth/logout', {})
 }

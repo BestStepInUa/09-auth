@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
 
 import { api } from '@/app/api/api'
-import { ApiError, createErrorResponce} from '@/app/api/_utils/utils'
+import { ApiError, createErrorResponce } from '@/app/api/_utils/utils'
 
 export async function GET() {
 	try {
@@ -36,3 +36,4 @@ export async function PATCH(request: Request) {
 		return createErrorResponce(error as ApiError)
 	}
 }
+
