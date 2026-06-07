@@ -12,6 +12,7 @@
 
 # bun
 .bun
+bun.lock
 bun.lockb
 
 # testing
