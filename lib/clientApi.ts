@@ -58,7 +58,7 @@ export const updateNote = async (
 }
 
 // AUTH
-export type RegisterRequest = {
+export type RegisterOrLoginRequest = {
 	email: string
 	password: string
 }
@@ -69,9 +69,14 @@ export type User = {
 	avatar: string
 }
 
-export const register = async (registerRequestDto: RegisterRequest): Promise<User> => {
+export const register = async (registerRequestDto: RegisterOrLoginRequest): Promise<User> => {
 	const { data } = await nextServer.post<User>('/auth/register', registerRequestDto)
 
 	return data
 }
 
+export const login = async (loginRequestDto: RegisterOrLoginRequest): Promise<User> => {
+	const { data } = await nextServer.post<User>('/auth/login', loginRequestDto)
+
+	return data
+}

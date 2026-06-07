@@ -3,20 +3,20 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
-import { register, RegisterOrLoginRequest } from '@/lib/clientApi'
+import { login, RegisterOrLoginRequest } from '@/lib/clientApi'
 import { ApiError } from '@/app/api/_utils/utils'
 import { catchError } from '@/app/helpers/catchError'
 
-import css from './SignUp.module.css'
+import css from './SignIn.module.css'
 
-export default function SignUp() {
+export default function SignIn() {
 	const router = useRouter()
 	const [error, setError] = useState<string | null>(null)
 
-	const handleSignUp = async (formData: FormData) => {
+	const handleSignIn = async (formData: FormData) => {
 		try {
-			const registerRequestDto = Object.fromEntries(formData) as RegisterOrLoginRequest
-			const res = await register(registerRequestDto)
+			const loginRequestDto = Object.fromEntries(formData) as RegisterOrLoginRequest
+			const res = await login(loginRequestDto)
 			if (res) {
 				router.push('/profile')
 			} else {
@@ -26,11 +26,11 @@ export default function SignUp() {
 			setError(catchError(error as ApiError))
 		}
 	}
-
 	return (
 		<main className={css.mainContent}>
-			<h1 className={css.formTitle}>Sign up</h1>
-			<form action={handleSignUp} className={css.form}>
+			<form action={handleSignIn} className={css.form}>
+				<h1 className={css.formTitle}>Sign in</h1>
+
 				<div className={css.formGroup}>
 					<label htmlFor='email'>Email</label>
 					<input id='email' type='email' name='email' className={css.input} required />
@@ -43,7 +43,7 @@ export default function SignUp() {
 
 				<div className={css.actions}>
 					<button type='submit' className={css.submitButton}>
-						Register
+						Log in
 					</button>
 				</div>
 
@@ -52,3 +52,4 @@ export default function SignUp() {
 		</main>
 	)
 }
+
