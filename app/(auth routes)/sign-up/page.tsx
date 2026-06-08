@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
 import { selectSetUser, useAuthStore } from '@/lib/store/authStore'
-import { register, RegisterOrLoginRequest } from '@/lib/clientApi'
+import { register, RegisterOrLoginRequest } from '@/lib/api/clientApi'
 import { ApiError } from '@/app/api/_utils/utils'
 import { catchError } from '@/app/helpers/catchError'
 

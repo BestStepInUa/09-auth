@@ -1,4 +1,4 @@
-import axios from 'axios'
+import { isAxiosError } from 'axios'
 import type { Note, CreateNoteDto } from '@/types/note'
 import { nextServer } from './api'
 
@@ -102,7 +102,7 @@ export const logout = async (): Promise<void> => {
 	try {
 		await nextServer.post('/auth/logout')
 	} catch (error) {
-		if (axios.isAxiosError(error) && error.response?.status === 400) {
+		if (isAxiosError(error) && error.response?.status === 400) {
 			return
 		}
 		throw error

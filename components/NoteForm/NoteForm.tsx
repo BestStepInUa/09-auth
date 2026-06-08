@@ -5,7 +5,7 @@ import * as Yup from 'yup'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 
-import { createNote } from '@/lib/clientApi'
+import { createNote } from '@/lib/api/clientApi'
 
 import css from './NoteForm.module.css'
 import {

@@ -8,7 +8,7 @@ import {
 	useAuthStore,
 	selectClearIsAuthenticated,
 } from '@/lib/store/authStore'
-import { logout } from '@/lib/clientApi'
+import { logout } from '@/lib/api/clientApi'
 
 import css from './AuthNavigation.module.css'
 import { useRouter } from 'next/navigation'
