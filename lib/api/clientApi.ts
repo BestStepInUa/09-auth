@@ -3,7 +3,7 @@ import type { Note, CreateNoteDto } from '@/types/note'
 import { nextServer } from './api'
 
 // NOTES
-interface NotesResponse {
+export interface NotesResponse {
 	notes: Note[]
 	totalPages: number
 }
@@ -98,7 +98,6 @@ export const getMe = async (): Promise<User> => {
 	return data
 }
 export const logout = async (): Promise<void> => {
-
 	try {
 		await nextServer.post('/auth/logout')
 	} catch (error) {
@@ -113,5 +112,3 @@ export const updateMe = async (username: string): Promise<User> => {
 	const { data } = await nextServer.patch<User>('/users/me', { username })
 	return data
 }
-
-

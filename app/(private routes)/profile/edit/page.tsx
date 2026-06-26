@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 
-import { useAuthStore, selectUser } from '@/lib/store/authStore'
+import { useAuthStore, selectUser, selectSetUser } from '@/lib/store/authStore'
 import { updateMe } from '@/lib/api/clientApi'
 
 import css from './EditProfilePage.module.css'
@@ -12,7 +12,7 @@ import css from './EditProfilePage.module.css'
 export default function EditProfile() {
 	const router = useRouter()
 	const user = useAuthStore(selectUser)!
-	const setUser = useAuthStore((state) => state.setUser)
+	const setUser = useAuthStore(selectSetUser)
 	const [username, setUsername] = useState(user.username)
 	const { email, avatar } = user
 
