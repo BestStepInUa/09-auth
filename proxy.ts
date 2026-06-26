@@ -4,22 +4,32 @@ import { checkServerSession } from './lib/api/serverApi'
 import { setAuthCookiesFromHeaders } from '@/app/api/_utils/utils'
 
 const PRIVATE_ROUTES = ['/profile', '/notes']
+const PUBLIC_ROUTES = ['/sign-in', '/sign-up']
 
 export async function proxy(request: NextRequest) {
 	const cookieStore = await cookies()
-	const accesToken = cookieStore.get('accessToken')?.value
+	const accessToken = cookieStore.get('accessToken')?.value
 	const refreshToken = cookieStore.get('refreshToken')?.value
 
 	const { pathname } = request.nextUrl
 	const isPrivateRoute = PRIVATE_ROUTES.some((route) => pathname.startsWith(route))
+	const isPublicRoute = PUBLIC_ROUTES.some((route) => pathname.startsWith(route))
 
-	if (isPrivateRoute) {
-		if (!accesToken) {
-			if (refreshToken) {
-				const { headers } = await checkServerSession()
-				const setCookie = headers['set-cookie']
+	if (!accessToken) {
+		if (refreshToken) {
+			const { headers } = await checkServerSession()
+			const setCookie = headers['set-cookie']
 
-				if (setAuthCookiesFromHeaders(cookieStore, setCookie)) {
+			if (setAuthCookiesFromHeaders(cookieStore, setCookie)) {
+				if (isPublicRoute) {
+					return NextResponse.redirect(new URL('/', request.url), {
+						headers: {
+							Cookie: cookieStore.toString(),
+						},
+					})
+				}
+
+				if (isPrivateRoute) {
 					return NextResponse.next({
 						headers: {
 							Cookie: cookieStore.toString(),
@@ -27,15 +37,26 @@ export async function proxy(request: NextRequest) {
 					})
 				}
 			}
+		}
 
+		if (isPublicRoute) {
+			return NextResponse.next()
+		}
+
+		if (isPrivateRoute) {
 			return NextResponse.redirect(new URL('/sign-in', request.url))
 		}
 	}
 
-	return NextResponse.next()
+	if (isPublicRoute) {
+		return NextResponse.redirect(new URL('/', request.url))
+	}
+
+	if (isPrivateRoute) {
+		return NextResponse.next()
+	}
 }
 
 export const config = {
-	matcher: ['/profile', '/notes/:path*'],
+	matcher: ['/profile', '/notes/:path*', '/sign-in', '/sign-up'],
 }
-
