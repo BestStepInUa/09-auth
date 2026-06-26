@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, type FormEvent } from 'react'
+import { useState } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 
@@ -12,12 +12,20 @@ import css from './EditProfilePage.module.css'
 export default function EditProfile() {
 	const router = useRouter()
 	const user = useAuthStore(selectUser)!
+	const setUser = useAuthStore((state) => state.setUser)
 	const [username, setUsername] = useState(user.username)
 	const { email, avatar } = user
 
-	const updateUsername = async (formData: FormData) => {
-		const username = formData.get('username') as string
-		await updateMe(username)
+	const handleUpdate = async (formData: FormData) => {
+		const newUsername = formData.get('username') as string
+
+		if (newUsername === user.username) {
+			router.push('/profile')
+			return
+		}
+
+		const updatedUser = await updateMe(newUsername)
+		setUser(updatedUser)
 		router.push('/profile')
 	}
 
@@ -28,12 +36,13 @@ export default function EditProfile() {
 
 				<Image src={avatar} alt={username} width={120} height={120} className={css.avatar} />
 
-				<form action={updateUsername} className={css.profileInfo}>
+				<form action={handleUpdate} className={css.profileInfo}>
 					<div className={css.usernameWrapper}>
 						<label htmlFor='username'>Username:</label>
 						<input
 							id='username'
 							type='text'
+							name='username'
 							className={css.input}
 							value={username}
 							onChange={(e) => setUsername(e.target.value)}
@@ -46,7 +55,11 @@ export default function EditProfile() {
 						<button type='submit' className={css.saveButton}>
 							Save
 						</button>
-						<button type='button' className={css.cancelButton}>
+						<button
+							type='button'
+							onClick={() => router.push('/profile')}
+							className={css.cancelButton}
+						>
 							Cancel
 						</button>
 					</div>
