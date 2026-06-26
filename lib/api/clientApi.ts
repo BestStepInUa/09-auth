@@ -82,7 +82,7 @@ export const login = async (loginRequestDto: RegisterOrLoginRequest): Promise<Us
 	return data
 }
 
-type CheckSessionResponse = {
+export type CheckSessionResponse = {
 	success: boolean
 }
 
