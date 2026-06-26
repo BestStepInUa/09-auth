@@ -1,10 +1,11 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, type FormEvent } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 
 import { useAuthStore, selectUser } from '@/lib/store/authStore'
+import { updateMe } from '@/lib/api/clientApi'
 
 import css from './EditProfilePage.module.css'
 
@@ -14,6 +15,12 @@ export default function EditProfile() {
 	const [username, setUsername] = useState(user.username)
 	const { email, avatar } = user
 
+	const updateUsername = async (formData: FormData) => {
+		const username = formData.get('username') as string
+		await updateMe(username)
+		router.push('/profile')
+	}
+
 	return (
 		<main className={css.mainContent}>
 			<div className={css.profileCard}>
@@ -21,15 +28,15 @@ export default function EditProfile() {
 
 				<Image src={avatar} alt={username} width={120} height={120} className={css.avatar} />
 
-				<form className={css.profileInfo}>
+				<form action={updateUsername} className={css.profileInfo}>
 					<div className={css.usernameWrapper}>
 						<label htmlFor='username'>Username:</label>
 						<input
 							id='username'
 							type='text'
+							className={css.input}
 							value={username}
 							onChange={(e) => setUsername(e.target.value)}
-							className={css.input}
 						/>
 					</div>
 
@@ -39,7 +46,7 @@ export default function EditProfile() {
 						<button type='submit' className={css.saveButton}>
 							Save
 						</button>
-						<button type='button' onClick={() => router.back()} className={css.cancelButton}>
+						<button type='button' className={css.cancelButton}>
 							Cancel
 						</button>
 					</div>
@@ -48,5 +55,4 @@ export default function EditProfile() {
 		</main>
 	)
 }
-
 
