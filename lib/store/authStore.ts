@@ -1,5 +1,5 @@
+import { User } from '@/types/user'
 import { create } from 'zustand'
-import { User } from '@/lib/api/clientApi'
 
 type AuthStore = {
 	isAuthenticated: boolean
@@ -19,4 +19,3 @@ export const selectIsAuthenticated = (state: AuthStore) => state.isAuthenticated
 export const selectUser = (state: AuthStore) => state.user
 export const selectSetUser = (state: AuthStore) => state.setUser
 export const selectClearIsAuthenticated = (state: AuthStore) => state.clearIsAuthenticated
-

@@ -1,6 +1,7 @@
 import { isAxiosError } from 'axios'
 import type { Note, CreateNoteDto } from '@/types/note'
 import { nextServer } from './api'
+import type { User } from '@/types/user'
 
 // NOTES
 export interface NotesResponse {
@@ -64,11 +65,11 @@ export type RegisterOrLoginRequest = {
 	password: string
 }
 
-export type User = {
-	email: string
-	username: string
-	avatar: string
-}
+// export type User = {
+// 	email: string
+// 	username: string
+// 	avatar: string
+// }
 
 export const register = async (registerRequestDto: RegisterOrLoginRequest): Promise<User> => {
 	const { data } = await nextServer.post<User>('/auth/register', registerRequestDto)
