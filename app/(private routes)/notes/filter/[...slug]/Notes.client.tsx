@@ -12,7 +12,7 @@ import NoteList from '@/components/NoteList'
 import { Note } from '@/types/note'
 
 import css from './NotesPage.module.css'
-import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 type NotesClientProps = {
 	tag?: string
@@ -21,8 +21,6 @@ type NotesClientProps = {
 export default function NotesClient({ tag }: NotesClientProps) {
 	const [currentPage, setCurrentPage] = useState(1)
 	const [searchQuery, setSearchQuery] = useState('')
-
-	const router = useRouter()
 
 	const { data } = useQuery<{ notes: Note[]; totalPages: number }, Error>({
 		queryKey: ['notes', searchQuery, tag, currentPage],
@@ -50,14 +48,9 @@ export default function NotesClient({ tag }: NotesClientProps) {
 						onPageChange={setCurrentPage}
 					/>
 				)}
-				<button
-					className={css.button}
-					onClick={() => {
-						router.push('/notes/action/create')
-					}}
-				>
+				<Link className={css.button} href='/notes/action/create'>
 					Create note +
-				</button>
+				</Link>
 			</div>
 			{notes.length > 0 && <NoteList notes={notes} />}
 		</div>
